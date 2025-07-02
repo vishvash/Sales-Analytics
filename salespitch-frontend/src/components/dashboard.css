@@ -1,0 +1,233 @@
+.dashboard {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
+
+.sidebar {
+  width: 3px;
+  background-color: #dbeafe; /* soft light blue */
+  padding: 1.5rem 1rem;
+  color: #1e3a8a; /* navy blue text */
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.05);
+}
+
+.sidebar-header {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #0284c7; /* sky blue */
+  text-align: center;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+}
+
+.file-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  overflow: scroll;
+  height: 500px;
+}
+
+.file-item {
+  padding: 0.75rem;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.2s ease-in-out;
+  font-weight: 500;
+  color: #1e3a8a;
+}
+
+.file-item:hover {
+  background-color: #bfdbfe;
+}
+
+.file-item.active {
+  background-color: #cdd2d8; /* stronger blue */
+  color: rgb(110, 62, 62);
+  box-shadow: inset 0 0 0 2px #94979f; /* blue border */
+}
+
+.star-rating .star {
+  color: #d1d5db;
+  font-size: 1.1rem;
+  transition: color 0.3s;
+}
+
+.star-rating .star.filled {
+  color: #fbbf24; /* yellow-400 */
+}
+
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  background-color: #f0f9ff; /* light blue */
+  /* overflow-y: auto; */
+}
+
+.tabs-container {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.tab {
+  padding: 0.75rem 2rem;
+  background-color: #e0f2fe;
+  color: #1e3a8a;
+  border-radius: 9999px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.tab:hover {
+  background-color: #bae6fd;
+}
+
+.tab.active {
+  background-color: #38bdf8;
+  color: white;
+  box-shadow: 0 2px 6px rgba(59, 130, 246, 0.3);
+}
+
+.tab.strengths,
+.tab.improve {
+  width: 50%;
+}
+
+.tab.strengths {
+  clip-path: polygon(0 0, calc(100% - 15px) 0, 100% 50%, calc(100% - 15px) 100%, 0 100%);
+}
+
+.tab.improve {
+  clip-path: polygon(15px 0, 100% 0, 100% 100%, 15px 100%, 0 50%);
+}
+
+.strengths.active {
+  background-color: #38bdf8 !important;
+}
+
+.improve.active {
+  background-color: #38bdf8;
+}
+
+.content-area {
+  flex: 1;
+  background-color: #ffffff;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+  overflow-y: auto;
+}
+
+.placeholder-title {
+  font-weight: bold;
+  font-size: 1.5rem;
+  color: #1e3a8a;
+  margin-bottom: 1rem;
+}
+
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.file-list::-webkit-scrollbar {
+  width: 6px;
+}
+.file-list::-webkit-scrollbar-thumb {
+  background-color: #c7c5be;
+  border-radius: 8px;
+}
+
+.upload-audio-btn {
+  background-color: #3b82f6;
+  color: white;
+  padding: 0.75rem 1.25rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s;
+}
+
+.upload-audio-btn:hover {
+  background-color: #2563eb;
+  transform: translateY(-2px);
+}
+
+.upload-audio-btn:active {
+  background-color: #4c64a7;
+  transform: translateY(0);
+}
+
+.placeholder-title {
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: #1e40af; /* Tailwind blue-800 */
+  margin-bottom: 1rem;
+  font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+  border-bottom: 2px solid #93c5fd; /* soft border */
+  padding-bottom: 0.5rem;
+  text-align: left;
+}
+
+.placeholder-text {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #334155; /* Tailwind slate-700 */
+  margin-bottom: 1rem;
+  font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+  line-height: 1.6;
+  letter-spacing: 0.3px;
+}
+
+.placeholder-text ul {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+  margin-top: 0.5rem;
+  
+}
+
+.placeholder-text li {
+  margin-bottom: 0.6rem;
+  padding-left: 0.25rem;
+  color: #1e293b; /* Tailwind slate-800 */
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
+  text-align: left;
+}
+
+.placeholder-text li:hover {
+  color: #0ea0e9; /* Tailwind sky-500 */
+  transform: translateX(2px);
+}
+
+.rating-warning {
+  display: inline-flex;
+  align-items: center;
+  font-size: 1rem;
+  font-weight: 500;
+  gap: 8px;
+  margin-bottom: 0.5rem;
+}
+
+.warning-icon {
+  color: #f59e42;
+  font-size: 15px;
+  cursor: pointer;
+  line-height: 1;
+  transition: transform 0.2s ease-in-out;
+}
+
+.warning-icon:hover {
+  transform: scale(1.2);
+}
+

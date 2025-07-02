@@ -1,0 +1,266 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body, html, .dashboard-container {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: #f9fafb;
+  font-family: 'Segoe UI', sans-serif;
+  color: #374151;
+}
+
+.dashboard-grid {
+  width: 100%;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  padding: 1.5rem;
+  overflow-y: auto;
+  max-height: calc(100vh - 120px);
+  min-height: 400px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 1.5rem;
+}
+
+.dashboard-title {
+  grid-column: 1 / -1;
+  text-align: center;
+}
+
+.dashboard-title h2 {
+  font-size: 28px;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.kpi-controls {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.kpi-cards {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+  height: 90px;
+  align-items: center;
+}
+
+.kpi-card {
+  background: #ffffff;
+  padding: 8px 12px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease;
+  height: 100%;
+  min-height: 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.kpi-card-title {
+  font-size: 13px;
+  color: #6b7280;
+  margin-bottom: 4px;
+}
+
+.kpi-card-value {
+  font-size: 18px;
+  font-weight: bold;
+  color: #111827;
+}
+
+.chart-card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  height: 380px;
+  min-height: 320px;
+  display: flex;
+  flex-direction: column;
+}
+
+.chart-card h4 {
+  margin-bottom: 8px;
+  font-size: 15px;
+  color: #374151;
+  text-align: center;
+}
+/* General Layout Improvements */
+.dashboard-container {
+  background: linear-gradient(135deg, #f3f4f6 0%, #e0e7ff 100%);
+  min-height: 100vh;
+  padding: 0;
+  margin: 0;
+}
+
+/* Title Row */
+.dashboard-title-row {
+  /* background: #fff; */
+  border-radius: 16px;
+  /* box-shadow: 0 3px 16px rgba(0,0,0,0.07); */
+  padding: 12px 16px;
+  margin-bottom: 10px;
+  align-items: center;
+  display: flex;
+  gap: 1rem;
+}
+
+.dashboard-title {
+  font-size: 2.4rem;
+  font-weight: 800;
+  color: #3730a3;
+  letter-spacing: 1px;
+  margin: 0;
+}
+
+.back-button {
+  background: #6366f1;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 22px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  box-shadow: 0 2px 8px rgba(99,102,241,0.08);
+}
+.back-button:hover {
+  background: #4338ca;
+}
+
+/* Dropdown Styles */
+.dashboard-dropdown-cell {
+  margin-bottom: 6px;
+  /* background: #fff; */
+  border-radius: 10px;
+  padding: 6px 10px;
+  /* box-shadow: 0 2px 8px rgba(0,0,0,0.06); */
+}
+
+.MuiInputBase-root {
+  background: #f3f4f6 !important;
+  border-radius: 8px !important;
+}
+
+/* KPI Cards */
+.kpi-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 18px;
+  margin-bottom: 18px;
+}
+
+.kpi-card {
+  background: linear-gradient(120deg, #f1f5f9 60%, #e0e7ff 100%);
+  border-radius: 14px;
+  box-shadow: 0 2px 10px rgba(99, 102, 241, 0.07);
+  padding: 18px 0;
+  text-align: center;
+  transition: transform 0.18s, box-shadow 0.18s;
+  min-height: 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.kpi-card:hover {
+  transform: translateY(-4px) scale(1.03);
+  box-shadow: 0 6px 18px rgba(99,102,241,0.13);
+}
+
+.kpi-card-title {
+  font-size: 14px;
+  color: #6d28d9;
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+
+.kpi-card-value {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+/* Chart Cards */
+.chart-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.10);
+  padding: 18px 12px 12px 12px;
+  margin-bottom: 12px;
+  min-height: 340px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  transition: box-shadow 0.2s;
+}
+.chart-card h4 {
+  margin-bottom: 14px;
+  font-size: 1.15rem;
+  color: #4f46e5;
+  font-weight: 600;
+  text-align: center;
+  letter-spacing: 0.5px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 900px) {
+  .dashboard-title-row {
+    flex-direction: column;
+    padding: 16px 10px;
+    gap: 1rem;
+  }
+  .dashboard-title {
+    font-size: 1.5rem;
+  }
+  .kpi-cards {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 10px;
+  }
+  .chart-card {
+    min-height: 220px;
+    padding: 10px 4px 8px 4px;
+  }
+}
+
+/* Pie Chart Custom Legend (optional, if you want to override default) */
+.recharts-legend-wrapper {
+  font-size: 0.95rem;
+  color: #4b5563;
+}
+
+/* Fix filter/search area alignment */
+.dashboard-container > div:first-child > div {
+  width: 100%;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  padding: 1rem 2rem;
+  position: relative;
+  left: 0;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}

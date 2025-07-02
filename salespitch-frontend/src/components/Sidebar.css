@@ -1,0 +1,149 @@
+/* ==== Sidebar Base ==== */
+.sidebar-menu {
+  width: 200px;
+  min-width: 200px;
+  max-width: 200px;
+  background: linear-gradient(180deg, #6366f1 0%, #60a5fa 60%, #f0f4ff 100%);
+  min-height: 100vh;
+  padding-top: 1.5rem;
+  transition: width 0.3s cubic-bezier(0.4,0,0.2,1);
+  box-sizing: border-box;
+  overflow-x: hidden;
+  border-right: 1.5px solid #e0e7ff;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  flex-shrink: 0;
+  box-shadow: 2px 0 12px 0 rgba(99,102,241,0.07);
+}
+
+/* List Reset */
+.sidebar-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  margin-top: 1.5rem;
+}
+
+/* Each Menu Item */
+.sidebar-menu li {
+  margin-bottom: 0.7rem;
+}
+
+/* Anchor Wrapper */
+.sidebar-menu a {
+  display: flex;
+  align-items: center;
+  color: #374151;
+  text-decoration: none;
+  padding: 0.75rem 1rem;
+  border-radius: 14px;
+  position: relative;
+  box-sizing: border-box;
+  /* Reserve space for border and box-shadow */
+  border-left: 4px solid transparent;
+  box-shadow: 0 2px 8px rgba(99,102,241,0.04);
+  padding-left: calc(1rem - 4px);
+  transition: 
+    background 0.25s,
+    color 0.25s,
+    box-shadow 0.25s,
+    border-color 0.25s;
+}
+
+/* ==== Icon ==== */
+.sidebar-icon {
+  font-size: 1.4rem;
+  display: block;
+  margin-right: 1rem;
+  transition: color 0.2s ease, filter 0.2s;
+}
+
+/* ==== Label ==== */
+.sidebar-label {
+  font-size: 15px;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: color 0.2s;
+}
+
+/* ==== Hover Effects ==== */
+.sidebar-menu li:hover a {
+  background: #e5edff;
+  color: #1d4ed8;
+  /* Only color changes, not size */
+  box-shadow: inset 2px 0 0 #1d4ed8;
+}
+
+.sidebar-menu li:hover .sidebar-icon {
+  color: #1d4ed8;
+}
+
+/* ==== Active Tab ==== */
+.sidebar-menu li.active a {
+  background: #e0e7ff;
+  color: #1d4ed8;
+  font-weight: 600;
+  border-left: 4px solid #6366f1; /* Only color changes */
+  box-shadow: inset 2px 0 0 #6366f1; /* Only color changes */
+}
+
+.sidebar-menu li.active .sidebar-icon {
+  color: #6366f1;
+  filter: drop-shadow(0 2px 6px #6366f1aa);
+}
+
+/* ==== Compact Sidebar ==== */
+.sidebar-menu.compact {
+  width: 80px;
+  min-width: 80px;
+  max-width: 80px;
+  overflow-x: visible;
+  padding-top: 1rem;
+  flex-shrink: 0;
+}
+
+.sidebar-menu.compact a {
+  justify-content: center;
+  padding: 0.75rem 0.5rem;
+  border-left: 4px solid transparent;
+  box-shadow: inset 2px 0 0 transparent;
+  padding-left: calc(0.5rem - 4px);
+}
+
+.sidebar-menu.compact li.active a {
+  border-left: 4px solid #6366f1;
+  box-shadow: inset 2px 0 0 #6366f1;
+}
+
+.sidebar-menu.compact li:hover a {
+  box-shadow: inset 2px 0 0 #1d4ed8;
+}
+
+.sidebar-menu.compact .sidebar-icon {
+  margin-right: 0;
+}
+
+/* ==== Compact Tooltip Hover ==== */
+.sidebar-menu.compact .sidebar-label {
+  display: none;
+  position: absolute;
+  left: 64px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(17, 24, 39, 0.95);
+  color: #f9fafb;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 400;
+  white-space: nowrap;
+  z-index: 999;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.sidebar-menu.compact li:hover .sidebar-label {
+  display: block;
+  opacity: 1;
+}

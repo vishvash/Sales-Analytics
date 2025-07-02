@@ -1,0 +1,51 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*.so
+
+# Virtual environments
+.venv/
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+
+# IDEs
+.vscode/
+.idea/
+
+# System
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# dotenv
+.env
+
+# Python virtual environment
+venv/
+.venv/
+ENV/
+env/
+
+# Node dependencies
+node_modules/
+
+# React build
+build/
+dist/
+
+# OS + IDE files
+.DS_Store
+.vscode/
+.idea/
+
+# Logs & env
+*.log
+.env

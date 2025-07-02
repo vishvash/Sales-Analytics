@@ -1,0 +1,35 @@
+--- Q&A from Chunk 1 ---
+[Counsellor]: Hello.
+
+[Counsellor]: Hi, Yoga Priya?
+
+[Student]: Yes.
+
+[Counsellor]: So, actually, we're discussing about the data science AI program. Do you remember?
+
+[Student]: Yes, sir.
+
+[Counsellor]: Okay. So, that's why I'm calling you to ask about your plans.
+
+[Counsellor]: Hello?
+
+[Student]: Hello, yes, sir.
+
+[Counsellor]: Okay, so Yoga Priya, actually I just called you like, have you seen the brochures and all, so what is your thought about it?
+
+[Student]: I'm sorry, sir. I have no idea about it.
+
+[Student]: Sorry?
+
+[Student]: No, I have no idea about it, sir.
+
+[Counsellor]: Okay, uh… After replying, I will call you back.
+
+[Student]: Okay, fine, fine.
+
+[Counsellor]: Bye.
+
+[Student]: Bye.
+
+[Counsellor]: Bye.
+
