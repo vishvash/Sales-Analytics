@@ -1,8 +1,14 @@
 import re
+import json
 
 def calculate_confidence_from_qa(final_qa):
+    # Accept final_qa as JSON (list or dict) or string
+    if isinstance(final_qa, (list, dict)):
+        qa_text = json.dumps(final_qa, ensure_ascii=False)
+    else:
+        qa_text = str(final_qa)
     # Step 1: Extract answers from Q&A text
-    answers = re.findall(r'^A:\s*(.*)', final_qa, flags=re.MULTILINE)
+    answers = re.findall(r'^A:\s*(.*)', qa_text, flags=re.MULTILINE)
     answer_text = ' '.join(answers).lower()
 
     # Step 2: Define filler and correction indicators

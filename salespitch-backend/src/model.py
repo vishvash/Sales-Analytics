@@ -14,7 +14,7 @@ class AudioFile(Base):
     uploaded_at = Column(DateTime(timezone=True), server_default=func.now())
     processing_time = Column(Float, nullable=True)  # in seconds
     result_data = Column(JSON, nullable=True)
-    list_qna_ans = Column(Text, nullable=True) # For potentially large text data
+    list_qna_ans = Column(JSON, nullable=True) # Changed from Text to JSON
     pauses = Column(String, nullable=True) # For string summaries of pauses
     speaking_rate_and_tone = Column(String, nullable=True) # For string summaries of rate and tone
     audio_length = Column(Float, nullable=True)

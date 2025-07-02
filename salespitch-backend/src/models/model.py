@@ -29,6 +29,7 @@ def get_whisper_model():
 def transcribe_audio_file(file_path: str) -> dict:
     try:
         question_answer, total_length_min = get_qns_ans(file_path)
+        # Pass as JSON to diarization and confidence
         diar = diarization(question_answer)
         pauses_result = analyze_pauses(file_path)
         sr_tone_result_combined = analyze_speaking_rate_and_tone_combined(file_path)

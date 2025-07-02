@@ -30,6 +30,12 @@ async def update_audio_result(db: AsyncSession, audio_id: int, result_data: dict
             audio.result_data = result_data
             audio.processing_time = processing_time
             if list_qna_ans is not None:
+                # Ensure list_qna_ans is a dict or list for JSON column
+                if isinstance(list_qna_ans, str):
+                    try:
+                        list_qna_ans = json.loads(list_qna_ans)
+                    except Exception:
+                        pass  # If it fails, leave as is (will error if not valid JSON)
                 audio.list_qna_ans = list_qna_ans
             if pauses is not None:
                 if isinstance(pauses, dict):

@@ -47,16 +47,13 @@ def diarization(
     # num_speakers: int = 2,
     # min_segment_duration: float = 0.5,
     # linkage: str = 'ward'
-    list_qns_ans: str
+    list_qns_ans
 ) -> dict:
     """
     Speaker diarization using Whisper segments and clustering.
 
     Args:
-        file_path: path to input audio (any format ffmpeg supports)
-        num_speakers: number of speaker clusters to form
-        min_segment_duration: drop segments shorter than this
-        linkage: clustering linkage ('ward','average','complete')
+        list_qns_ans: JSON (list or dict) from QA extraction, not a string
 
     Returns:
         {'diarization': ['SPEAKER 1: text', ...]}
@@ -130,8 +127,14 @@ def diarization(
 
     model_gem = genai.GenerativeModel('gemini-1.5-flash')
 
+    # Convert list_qns_ans to a string if it's a list or dict
+    if isinstance(list_qns_ans, (list, dict)):
+        list_qns_ans_str = json.dumps(list_qns_ans, ensure_ascii=False)
+    else:
+        list_qns_ans_str = str(list_qns_ans)
+
     prompt_text = (
-    list_qns_ans + 
+    list_qns_ans_str + 
     "\n\nEvaluate the sales pitch for clarity, confidence, product knowledge, structure, value delivery, objection handling, and rapport building. "
     "Give a rating out of 10. "
     "Output in JsonArray format with keys: rating, strengths, and areas_of_improvement. "

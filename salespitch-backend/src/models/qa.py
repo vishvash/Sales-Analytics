@@ -31,24 +31,23 @@ import google.generativeai as genai
 
 from IPython.display import Markdown, display
 
+from jinja2 import Template
+
+# Modified get_qns_ans function with JSON-formatted final_qa and reduced redundancy
 def get_qns_ans(file_path: str) -> dict:
     API_KEY = "AIzaSyCQSG1AhItY1DXH0GkFgYMZ72xnjZNVwPg"
     if not file_path.lower().endswith('.wav'):
-      wav_path = "converted_audio.wav"
-      subprocess.run(['ffmpeg', '-y', '-i', file_path, wav_path], check=True)
-      file_path = wav_path
+        wav_path = "converted_audio.wav"
+        subprocess.run(['ffmpeg', '-y', '-i', file_path, wav_path], check=True)
+        file_path = wav_path
 
-    chunk_length_ms = 3 * 60 * 1000  # 3 minutes in milliseconds
+    chunk_length_ms = 3 * 60 * 1000
     output_folder = "audio_chunks"
-    final_output_file = "full_transcript.txt"
-
     os.makedirs(output_folder, exist_ok=True)
 
     audio = AudioSegment.from_file(file_path)
     total_length_ms = len(audio)
-    total_length_min = total_length_ms / 60000
-    total_length_min = round(total_length_min, 2)
-    print("audio length", total_length_min)
+    total_length_min = round(total_length_ms / 60000, 2)
     total_chunks = math.ceil(total_length_ms / chunk_length_ms)
 
     chunk_paths = []
@@ -60,28 +59,35 @@ def get_qns_ans(file_path: str) -> dict:
         chunk.export(chunk_path, format="wav")
         chunk_paths.append(chunk_path)
 
-    all_qa_texts = []
-    all_transcripts = []
+    structured_outputs = []
 
     url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={API_KEY}"
-    
-    headers = {
-    "Content-Type": "application/json"
-    }
+    headers = {"Content-Type": "application/json"}
 
     for i, path in enumerate(chunk_paths):
-        # print(f"\n🔹 Processing chunk {i+1}/{total_chunks}")
-
-        # Read and encode audio chunk
         with open(path, "rb") as f:
             audio_b64 = base64.b64encode(f.read()).decode("utf-8")
 
-        # Transcription payload
-        transcribe_payload = {
+        # Direct prompt: transcribe and analyze in one go
+        prompt = '''
+Transcribe, translate the following audio into English. Return only plain English text and analyze the following counselling call audio.
+ 
+Speaker roles:
+- [Counsellor]
+- [Student]
+
+Return output in JsonArray format with:
+- "transcript": timestamped speaker dialogue
+- "durations": time spoken by each speaker
+- "question_analysis": number of questions from Student, how many answered by Counsellor, and flagged delays > 3s
+- "student_demographics": name, age, location, education, course_interest, contact (if mentioned)
+'''
+
+        payload = {
             "contents": [
                 {
                     "parts": [
-                        {"text": "Transcribe and translate the following audio into English, regardless of the spoken language. Return only the plain English text without any speaker labels or formatting."},
+                        {"text": prompt},
                         {
                             "inline_data": {
                                 "mime_type": "audio/wav",
@@ -93,59 +99,21 @@ def get_qns_ans(file_path: str) -> dict:
             ]
         }
 
-        res = requests.post(url, headers=headers, json=transcribe_payload)
+        res = requests.post(url, headers=headers, json=payload)
         if res.status_code != 200:
-            # print(f" Transcription failed for chunk {i+1}: {res.status_code} - {res.text}")
             continue
 
-        transcript = res.json()['candidates'][0]['content']['parts'][0]['text']
-        all_transcripts.append(transcript)  # <--- Add transcript to list
-        # print(f"  Transcription received for chunk {i+1}")
+        try:
+            response_text = res.json()['candidates'][0]['content']['parts'][0]['text']
+            if response_text.strip().startswith("```json"):
+                response_text = response_text.strip().removeprefix("```json").removesuffix("```").strip()
+            json_output = json.loads(response_text)
+            structured_outputs.append(json_output)
+        except Exception as e:
+            print(f"[get_qns_ans] Failed to parse cleaned JSON in chunk {i+1}: {e}")
+            print("[get_qns_ans] Cleaned response text (start):", response_text[:300])
 
-        # Prepare Q&A prompt
-        qa_payload = {
-            "contents": [
-                {
-                    "parts": [
-                        {
-                            "text": f"""Convert the following sales conversation transcript into a structured dialogue with speaker identification.
-Use '[Counsellor]:' for the career counsellor and '[Student]:' for the prospective student.
-Ensure all lines are labeled correctly based on the speaking style and context. Keep the sequence intact.
-
-    Transcript:
-    {transcript}
-    """
-                        }
-                    ]
-                }
-            ]
-        }
-
-        qa_res = requests.post(url, headers=headers, json=qa_payload)
-        if qa_res.status_code != 200:
-            # print(f" Q&A formatting failed for chunk {i+1}: {qa_res.status_code} - {qa_res.text}")
-            continue
-
-        qa_text = qa_res.json()['candidates'][0]['content']['parts'][0]['text']
-        all_qa_texts.append(f"--- Q&A from Chunk {i+1} ---\n{qa_text}\n")
-        
-
-    # ========== SAVE ALL Q&A ==========
-    if all_qa_texts:
-        final_qa = "\n\n".join(all_qa_texts)
-        with open(final_output_file, "w", encoding="utf-8") as f:
-            f.write(final_qa)
-        
-    else:
-        print("No Q&A was generated.")
-
-    if all_qa_texts:
-          final_qa = "\n\n".join(all_qa_texts)
-          with open(final_output_file, "w", encoding="utf-8") as f:
-              f.write(final_qa)
-          
-    else:
-        print("No Q&A was generated.")
-        final_qa = ""
-
+    final_qa = structured_outputs if structured_outputs else ""
+    print(f"[get_qns_ans] structured_outputs: {structured_outputs}")
+    print(f"[get_qns_ans] final_qa: {final_qa}")
     return final_qa, total_length_min

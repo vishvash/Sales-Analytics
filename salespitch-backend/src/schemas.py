@@ -12,7 +12,7 @@ class AudioFileOut(BaseModel):
     uploaded_at: datetime
     processing_time: Optional[float]
     result_data: Any
-    list_qna_ans: Optional[str] # For potentially large text data
+    list_qna_ans: Optional[Any] # Accepts JSON (list/dict) or string
     pauses: Optional[str]       # For string summaries of pauses
     speaking_rate_and_tone: Optional[str] # For string summaries of rate and tone
     audio_length: Optional[float] # Add audio_length to output schema
