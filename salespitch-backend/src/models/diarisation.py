@@ -28,6 +28,7 @@ import google.generativeai as genai
 # from google.colab import userdata
 
 from IPython.display import Markdown, display
+from src.config import GOOGLE_API_KEY
 
 # Load models once
 # def _load_models(model_size="tiny"):
@@ -122,7 +123,7 @@ def diarization(
         # text = text.replace('.', ' *')
         return Markdown(textwrap.indent(text, '> ', predicate = lambda _: True))
     
-    os.environ['GOOGLE_API_KEY'] = "AIzaSyCQSG1AhItY1DXH0GkFgYMZ72xnjZNVwPg"
+    os.environ['GOOGLE_API_KEY'] = GOOGLE_API_KEY
     genai.configure(api_key = os.environ['GOOGLE_API_KEY'])
 
     model_gem = genai.GenerativeModel('gemini-1.5-flash')

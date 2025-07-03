@@ -33,15 +33,17 @@ from IPython.display import Markdown, display
 
 from jinja2 import Template
 
+from src.config import GOOGLE_API_KEY
+
 # Modified get_qns_ans function with JSON-formatted final_qa and reduced redundancy
 def get_qns_ans(file_path: str) -> dict:
-    API_KEY = "AIzaSyCQSG1AhItY1DXH0GkFgYMZ72xnjZNVwPg"
+    API_KEY = GOOGLE_API_KEY
     if not file_path.lower().endswith('.wav'):
         wav_path = "converted_audio.wav"
         subprocess.run(['ffmpeg', '-y', '-i', file_path, wav_path], check=True)
         file_path = wav_path
 
-    chunk_length_ms = 3 * 60 * 1000
+    chunk_length_ms = 60 * 60 * 1000
     output_folder = "audio_chunks"
     os.makedirs(output_folder, exist_ok=True)
 
@@ -61,7 +63,7 @@ def get_qns_ans(file_path: str) -> dict:
 
     structured_outputs = []
 
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={API_KEY}"
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent?key={API_KEY}"
     headers = {"Content-Type": "application/json"}
 
     for i, path in enumerate(chunk_paths):
@@ -70,17 +72,55 @@ def get_qns_ans(file_path: str) -> dict:
 
         # Direct prompt: transcribe and analyze in one go
         prompt = '''
-Transcribe, translate the following audio into English. Return only plain English text and analyze the following counselling call audio.
- 
-Speaker roles:
-- [Counsellor]
-- [Student]
+You are an advanced transcription and analysis assistant for counseling call recordings.
 
-Return output in JsonArray format with:
-- "transcript": timestamped speaker dialogue
-- "durations": time spoken by each speaker
-- "question_analysis": number of questions from Student, how many answered by Counsellor, and flagged delays > 3s
-- "student_demographics": name, age, location, education, course_interest, contact (if mentioned)
+Your task is to:
+1. **Transcribe and translate** all spoken content into fluent **English**, regardless of the original language (e.g., Tamil, Hindi, etc.).
+   - Do not transliterate local words (e.g., "enna" → "what" not "enna").
+   - Focus on **meaningful translation** using proper English expressions.
+2. Identify and label speakers as:
+   - [Counsellor]
+   - [Student]
+3. Include accurate **timestamps** for each speaker's dialogue.
+4. Format the output as a **JSON array** with the following keys:
+
+```json
+{
+  "transcript": [
+    {
+      "start_time": "00:00",
+      "end_time": "00:04",
+      "speaker": "Student",
+      "text": "Can you explain the course structure?"
+    },
+    ...
+  ],
+  "durations": {
+    "Counsellor": "MM:SS",
+    "Student": "MM:SS"
+  },
+  "question_analysis": {
+    "student_questions": 5,
+    "answered_by_counsellor": 4,
+    "delays_over_3s": [
+      {
+        "question_time": "00:40",
+        "response_delay": "4.2s",
+        "question": "What are the placement opportunities?",
+        "response": "We have tie-ups with multiple companies..."
+      },
+      ...
+    ]
+  },
+  "student_demographics": {
+    "name": "Ravi Kumar",
+    "age": 20,
+    "location": "Chennai",
+    "education": "B.Sc Computer Science",
+    "course_interest": "Data Science",
+    "contact": "9876543210"
+  }
+}
 '''
 
         payload = {

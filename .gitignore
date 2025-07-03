@@ -49,3 +49,5 @@ dist/
 # Logs & env
 *.log
 .env
+
+**/config.py
